@@ -1,8 +1,7 @@
 #import "AppDelegate.h"
 
-@import UIKit;
 @import Firebase;
-
+@import UIKit;
 @import UserNotifications;
 
 // Implement UNUserNotificationCenterDelegate to receive display notification via APNS for devices
@@ -205,7 +204,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     // MigratoryData client initialization
     client = [MigratoryDataClient new];
     
-    [client setLogType: LOG_TRACE];
+    [client setLogLevel: LOG_INFO];
     
     [client setExternalToken: fcmToken];
     
@@ -222,23 +221,16 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     [subjectList addObject: @"/rooms/demoRoom"];
     [client subscribe: subjectList];
     
-    //    [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
-    //        NSLog(@"UIApplication keepAlive");
-    //        if (client != nil) {
-    //            [client ping];
-    //        }
-    //    }];
-
-    
+    [client connect];
 }
 // [END refresh_token]
 
 // [START ios_10_data_message]
 // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
 // To enable direct data messages, you can set [Messaging messaging].shouldEstablishDirectChannel to YES.
-- (void)messaging:(FIRMessaging *)messaging didReceiveMessage:(FIRMessagingRemoteMessage *)remoteMessage {
-    NSLog(@"Received data message: %@", remoteMessage.appData);
-}
+//- (void)messaging:(FIRMessaging *)messaging didReceiveMessage:(FIRMessagingRemoteMessage *)remoteMessage {
+//    NSLog(@"Received data message: %@", remoteMessage);
+//}
 // [END ios_10_data_message]
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
